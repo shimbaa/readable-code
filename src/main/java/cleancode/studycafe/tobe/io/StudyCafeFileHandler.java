@@ -12,30 +12,23 @@ import java.util.List;
 
 public class StudyCafeFileHandler {
 
-    public List<StudyCafePass> readStudyCafePasses() {
-        try {
-            List<String> lines = Files.readAllLines(Paths.get("src/main/resources/cleancode/studycafe/pass-list.csv"));
-            List<StudyCafePass> studyCafePasses = new ArrayList<>();
-            for (String line : lines) {
-                String[] values = line.split(",");
-                StudyCafePassType studyCafePassType = StudyCafePassType.valueOf(values[0]);
-                int duration = Integer.parseInt(values[1]);
-                int price = Integer.parseInt(values[2]);
-                double discountRate = Double.parseDouble(values[3]);
+    private static final String PASS_LIST_CSV_DIRECTORY = "src/main/resources/cleancode/studycafe/pass-list.csv";
+    private static final String LOCKER_CSV_DIRECTORY = "src/main/resources/cleancode/studycafe/locker.csv";
+    private List<StudyCafePass> studyCafePasses;
 
-                StudyCafePass studyCafePass = StudyCafePass.of(studyCafePassType, duration, price, discountRate);
-                studyCafePasses.add(studyCafePass);
-            }
+    public StudyCafeFileHandler() {
+        this.studyCafePasses = readStudyCafePassFile();
+    }
 
-            return studyCafePasses;
-        } catch (IOException e) {
-            throw new RuntimeException("파일을 읽는데 실패했습니다.", e);
-        }
+    public List<StudyCafePass> readStudyCafePassesFrom(StudyCafePassType selectedPassType) {
+            return studyCafePasses.stream()
+                    .filter(studyCafePass -> studyCafePass.isSamePassType(selectedPassType))
+                    .toList();
     }
 
     public List<StudyCafeLockerPass> readLockerPasses() {
         try {
-            List<String> lines = Files.readAllLines(Paths.get("src/main/resources/cleancode/studycafe/locker.csv"));
+            List<String> lines = Files.readAllLines(Paths.get(LOCKER_CSV_DIRECTORY));
             List<StudyCafeLockerPass> lockerPasses = new ArrayList<>();
             for (String line : lines) {
                 String[] values = line.split(",");
@@ -53,4 +46,24 @@ public class StudyCafeFileHandler {
         }
     }
 
+
+    private List<StudyCafePass> readStudyCafePassFile() {
+        List<StudyCafePass> passes = new ArrayList<>();
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(PASS_LIST_CSV_DIRECTORY));
+            for (String line : lines) {
+                String[] values = line.split(",");
+                StudyCafePassType studyCafePassType = StudyCafePassType.valueOf(values[0]);
+                int duration = Integer.parseInt(values[1]);
+                int price = Integer.parseInt(values[2]);
+                double discountRate = Double.parseDouble(values[3]);
+
+                StudyCafePass studyCafePass = StudyCafePass.of(studyCafePassType, duration, price, discountRate);
+                passes.add(studyCafePass);
+            }
+            return passes;
+        } catch (IOException e) {
+            throw new RuntimeException("파일을 읽는데 실패했습니다.", e);
+        }
+    }
 }
