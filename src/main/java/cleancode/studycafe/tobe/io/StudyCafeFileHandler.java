@@ -23,7 +23,7 @@ public class StudyCafeFileHandler {
 
     public List<StudyCafePass> readStudyCafePassesFrom(StudyCafePassType selectedPassType) {
             return studyCafePasses.stream()
-                    .filter(studyCafePass -> studyCafePass.isSamePassType(selectedPassType))
+                    .filter(studyCafePass -> studyCafePass.isSamePassTypeWith(selectedPassType))
                     .toList();
     }
 

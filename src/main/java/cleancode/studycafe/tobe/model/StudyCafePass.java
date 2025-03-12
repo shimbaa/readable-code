@@ -22,7 +22,7 @@ public class StudyCafePass {
         return passType;
     }
 
-    public boolean isSamePassType(StudyCafePassType givenPassType) {
+    public boolean isSamePassTypeWith(StudyCafePassType givenPassType) {
         return this.passType == givenPassType;
     }
 

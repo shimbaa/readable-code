@@ -33,7 +33,7 @@ public class StudyCafePassMachine {
             outputHandler.showPassOrderSummary(selectedPass, null);
 
             // 고정석인 경우 라커 선택 로직
-            if (selectedPass.isSamePassType(StudyCafePassType.FIXED)) {
+            if (selectedPass.isSamePassTypeWith(StudyCafePassType.FIXED)) {
                 List<StudyCafeLockerPass> lockerPasses = studyCafeFileHandler.readLockerPasses();
                 StudyCafeLockerPass lockerPass = lockerPasses.stream()
                         .filter(option ->
