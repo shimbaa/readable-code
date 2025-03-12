@@ -14,6 +14,7 @@ public class StudyCafeFileHandler {
 
     private static final String PASS_LIST_CSV_DIRECTORY = "src/main/resources/cleancode/studycafe/pass-list.csv";
     private static final String LOCKER_CSV_DIRECTORY = "src/main/resources/cleancode/studycafe/locker.csv";
+    private static final String FILE_READ_ERROR_COMMENT = "파일을 읽는데 실패했습니다.";
     private List<StudyCafePass> studyCafePasses;
 
     public StudyCafeFileHandler() {
@@ -42,7 +43,7 @@ public class StudyCafeFileHandler {
 
             return lockerPasses;
         } catch (IOException e) {
-            throw new RuntimeException("파일을 읽는데 실패했습니다.", e);
+            throw new RuntimeException(FILE_READ_ERROR_COMMENT, e);
         }
     }
 
@@ -63,7 +64,7 @@ public class StudyCafeFileHandler {
             }
             return passes;
         } catch (IOException e) {
-            throw new RuntimeException("파일을 읽는데 실패했습니다.", e);
+            throw new RuntimeException(FILE_READ_ERROR_COMMENT, e);
         }
     }
 }
